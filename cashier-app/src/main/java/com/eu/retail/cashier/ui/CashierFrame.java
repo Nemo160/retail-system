@@ -6,37 +6,36 @@ import javax.swing.*;
 
 import java.awt.*;
 
-import static com.eu.swingkit.window.Frames.createFrame;
 
 public class CashierFrame extends JFrame{
     public CashierFrame(){
         setTitle("Cashier");
         setSize(1000,700);
         setLocationRelativeTo(null);
-        //setLayout(new BorderLayout());
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.setVisible(true);
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        this.add(mainPanel);
-
-        initUI(mainPanel);
+        initUI();
+        setVisible(true);
 
     }
-    private void initUI(JPanel main){
+    private void initUI(){
         CartPanel cart = new CartPanel();
-        cart.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-        main.add(cart,BorderLayout.EAST);
+        cart.setPreferredSize(new Dimension(400,700));
 
-
-        //DEBUGG TEST ADD
+        //DEBUGG TEST ADD, implement addItem to cartpanel
+        JPanel tempPanel = new JPanel();
         JButton testButton = new JButton("ADD");
+        testButton.setPreferredSize(new Dimension(100,100));
         testButton.addActionListener(e->{
            addTest();
         });
-        main.add(testButton);
+        tempPanel.add(testButton);
+
+        add(tempPanel, BorderLayout.CENTER);
+        add(cart, BorderLayout.EAST);
+        //panel.add(cart);
+
 
 
         // main.add(test,BorderLayout.EAST);

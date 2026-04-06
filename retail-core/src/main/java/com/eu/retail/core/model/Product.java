@@ -24,13 +24,12 @@ public class Product {
 
     }
     @Override
-    public String toString(){
+    public String toString() {
         if(pricingType == PricingType.PER_KG){
-            return name + " - $" + price + "/kg";
+            return String.format("%s - $%.2f/kg", name, price);
         }
         else{
-            return name + " - $" + price;
+            return String.format("%s - $%.2f", name, price);
         }
-
     }
 }
