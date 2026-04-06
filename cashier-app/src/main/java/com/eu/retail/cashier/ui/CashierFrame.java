@@ -25,7 +25,7 @@ public class CashierFrame extends JFrame{
 
         //DEBUGG TEST ADD, implement addItem to cartpanel
         JPanel tempPanel = new JPanel();
-        JButton testButton = new JButton("ADD");
+        JButton testButton = new JButton("APPLE");
         testButton.setPreferredSize(new Dimension(100,100));
         testButton.addActionListener(e->{
            addTest();
