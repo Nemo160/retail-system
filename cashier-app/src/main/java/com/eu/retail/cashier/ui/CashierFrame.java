@@ -30,38 +30,37 @@ public class CashierFrame extends JFrame{
         JPanel leftPanel = new JPanel(new BorderLayout());
         JPanel rightPanel = new JPanel(new BorderLayout());
         //cart.setPreferredSize(new Dimension(400,700));
-        rightPanel.setPreferredSize(new Dimension(400,700));
+        rightPanel.setPreferredSize(new Dimension(CommonConstant.RIGHT_PANEL_WIDTH,CommonConstant.RIGHT_PANEL_HEIGHT));
+        leftPanel.setPreferredSize(new Dimension(CommonConstant.LEFT_PANEL_WIDTH,CommonConstant.LEFT_PANEL_HEIGHT));
 
+
+        //set debugging borders
+        cashierOptions.setBorder(BorderFactory.createTitledBorder("Options"));
+        numPad.setBorder(BorderFactory.createTitledBorder("NUMPAD"));
+        cart.setBorder(BorderFactory.createTitledBorder("CART"));
+        categoriesPanel.setBorder(BorderFactory.createTitledBorder("Category"));
+
+        rightPanel.setBorder(BorderFactory.createTitledBorder("RIGHT"));
+        leftPanel.setBorder(BorderFactory.createTitledBorder("LEFT"));
         rightPanel.add(cart,BorderLayout.NORTH);
         rightPanel.add(numPad,BorderLayout.SOUTH);
 
         leftPanel.add(cashierOptions,BorderLayout.SOUTH);
         leftPanel.add(categoriesPanel, BorderLayout.CENTER);
-        cashierOptions.setBorder(BorderFactory.createTitledBorder("Options"));
-        numPad.setBorder(BorderFactory.createTitledBorder("NUMPAD"));
-        cart.setBorder(BorderFactory.createTitledBorder("CART"));
-
-        rightPanel.setBorder(BorderFactory.createTitledBorder("RIGHT"));
-        leftPanel.setBorder(BorderFactory.createTitledBorder("LEFT"));
-
 
 
         //DEBUGG TEST ADD, implement addItem to cartpanel
-
         JButton testButton = new JButton("APPLE");
         testButton.setPreferredSize(new Dimension(100,100));
         testButton.addActionListener(e->{
            addTest();
         });
-        leftPanel.add(testButton, BorderLayout.CENTER);
 
-        //add(tempPanel, BorderLayout.CENTER);
+        //leftPanel.add(testButton, BorderLayout.NORTH);
+
         add(rightPanel,BorderLayout.EAST);
         add(leftPanel,BorderLayout.WEST);
-        //mainframe.add(cart, BorderLayout.EAST);
-       // mainframe.add(categoriesPanel, BorderLayout.CENTER);
-     //   mainframe.add(cashierOptions, BorderLayout.SOUTH);
-        //panel.add(cart);
+
 
 
 
