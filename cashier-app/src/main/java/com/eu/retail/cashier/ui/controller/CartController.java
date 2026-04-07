@@ -1,41 +1,21 @@
 package com.eu.retail.cashier.ui.controller;
 
+import com.eu.retail.cashier.ui.CartUIListener;
+import com.eu.retail.cashier.ui.model.CartItem;
 import com.eu.retail.core.model.Product;
 
 import javax.swing.*;
 
 public class CartController {
-    private DefaultListModel<Product> model;
-    private JTextArea input;
-    public CartController(DefaultListModel<Product> model){
+    private DefaultListModel<CartItem> model;
+    private CartUIListener uiListener;
+    public CartController(DefaultListModel<CartItem> model, CartUIListener uiListener){
         this.model = model;
-        //this.input = input;
+        this.uiListener = uiListener;
+
     }
 
-    public String handleNumPadInput(String current,String value) {
-        if(value.contains("⌫")){
-            if(!current.isEmpty()){
-                return current.substring(0, current.length() - 1);
-            }
-            return current;
-        }
-        if(value.equals(".") && current.contains(".")){
-            return current;
-        }
-        if(value.equals("Enter")){
-            //if we are searching for something then put the itemID in the cartlist/model
-            //if we are entering values such as weight then enter the weight send the value to be caluclated for the price of the item in weight.
-            current.trim();
-            System.out.println(current);
-            return current;
-        }
-        if(value.equals("Clear")){
-            return "";
-        }
-        return current + value;
-    }
-
-    public void removeSelected(JList<Product> list){
+    public void removeSelected(JList<CartItem> list){
         int i = list.getSelectedIndex();
         if(i != -1){
             model.remove(i);
@@ -43,6 +23,31 @@ public class CartController {
     }
 
     public void addProduct(Product product){
-        model.addElement(product);
+        if(product == null){ return; }
+        if(product.isWeighted()){
+            uiListener.requestWeightInput(product);
+            System.out.println("ADDING PRODUCT: "+product);
+        }
+        else{
+            for (int i = 0; i < model.size(); i++) {
+                CartItem item = model.getElementAt(i);
+
+                if (item.getProduct().equals(product)) {
+                    item.setQuantity(item.getQuantity() + 1);
+                    return;
+                }
+                model.set(i, item); //refresh
+            }
+            CartItem item = new CartItem(product, 1);
+            model.addElement(item);
+
+        }
+
     }
+    public void confirmWeight(Product product, double weight){
+        CartItem item = new CartItem(product, weight);
+        model.addElement(item);
+    }
+
+
 }

@@ -1,25 +1,29 @@
 package com.eu.retail.cashier.ui;
 
 import com.eu.retail.cashier.ui.controller.CartController;
+import com.eu.retail.cashier.ui.model.CartItem;
 import com.eu.retail.core.model.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class CartPanel extends JPanel {
+public class CartPanel extends JPanel implements CartUIListener {
     //private final int WIDTH = 200;
 
-    private static JList<Product> cartList = new JList<>();
-    public static DefaultListModel<Product> model = new DefaultListModel<>();
+    private JList<CartItem> cartList = new JList<>();
+    private DefaultListModel<CartItem> model;
+
+    private CartController cartController;
 
     private JPanel buttonsPanel = new JPanel();
     private JScrollPane scrollPane = new JScrollPane();
     private JButton remBtn;
+    //CartUIListener uiListener;
 
-
-    CartController controller = new CartController(model);
-
-
-    public CartPanel(){
+    public CartPanel(DefaultListModel<CartItem> model, CartController cartController){
+        //this.uiListener = this;
+        this.model = model;
+        this.cartController = cartController;
+        //cartController = new CartController(model,this);
         setBackground(Color.orange);
         setLayout(new BorderLayout());
 
@@ -36,16 +40,14 @@ public class CartPanel extends JPanel {
 
 
     }
-    public DefaultListModel<Product> getModel(){
-        return model;
-    }
+
     private void initButtons(){
 
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         remBtn = new JButton("Remove Item");
         remBtn.addActionListener(e -> {
-            controller.removeSelected(cartList);
+            cartController.removeSelected(cartList);
             //FOR DEBUGGING
             //printout();
         });
@@ -64,9 +66,6 @@ public class CartPanel extends JPanel {
 
     private void initScroll(){
         cartList.setModel(model);
-        System.out.println("initScroll");
-       // model.addElement(new Product(20,"test",2.0,"this is test desc"));
-       // model.addElement(new Product(25,"test2",5.0,"this is test2 desc"));
 
         scrollPane = new JScrollPane(cartList);
         scrollPane.setPreferredSize(new Dimension(250,600));
@@ -74,20 +73,30 @@ public class CartPanel extends JPanel {
     }
 
 
-    private void printout(){
-        double total = 0;
-        for(int i = 0; i < model.size();i++){
-            Product p = model.getElementAt(i);
-            total += p.getPrice();
-            System.out.println(p);
-        }
-        System.out.println(total);
+    public void addItem(Product p){
+       cartController.addProduct(p);
     }
 
 
-    public void addItem(Product p){
-       controller.addProduct(p);
-        //Here we call th
+    public void promptForWeight(Product product){
+        String value = JOptionPane.showInputDialog(this,
+                "Enter weight for " + product.getName());
+
+        if(value != null){
+            try{
+                double weight = Double.parseDouble(value);
+                cartController.confirmWeight(product,weight);
+            }
+            catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "Invalid weight");
+            }
+        }
+    }
+
+
+    @Override
+    public void requestWeightInput(Product product) {
+
     }
 
 }
