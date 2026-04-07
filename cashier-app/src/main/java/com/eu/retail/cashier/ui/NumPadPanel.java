@@ -1,13 +1,15 @@
 package com.eu.retail.cashier.ui;
 
 import com.eu.retail.cashier.ui.controller.CartController;
+import com.eu.retail.cashier.ui.controller.NumPadController;
+import com.eu.retail.cashier.ui.controller.SearchController;
 import com.eu.retail.core.model.Product;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class NumPad extends JPanel {
-    private  DefaultListModel<Product> model = new DefaultListModel<>();
+public class NumPadPanel extends JPanel {
+    private  DefaultListModel<Product> model;
     private JButton[] btns = new JButton[15];
     private String[] symbols ={
             "Enter", "Clear", "⌫",
@@ -18,19 +20,24 @@ public class NumPad extends JPanel {
     };
     JTextArea input = new JTextArea(1,10);
 
-    CartController controller = new CartController(model);
+
+    SearchController searchController = new SearchController();
+    NumPadController numPadController = new NumPadController();
     JPanel topPanel = new JPanel(new BorderLayout());
     JPanel bottomPanel = new JPanel(new BorderLayout());
+    private final CartController cartController;
 
-
-    public NumPad(DefaultListModel<Product> model){
+    public NumPadPanel(CartController cartController){
         this.model= model;
+        this.cartController = cartController;
         setLayout(new BorderLayout());
         setBackground(Color.RED);
 
 
         //input window panel
+        input.setFont(new Font("Arial", Font.BOLD,18));
         topPanel.add(input, BorderLayout.CENTER);
+
         //numbers panel
         bottomPanel.setLayout(new GridLayout(5,3));
         initBtn();
@@ -52,9 +59,15 @@ public class NumPad extends JPanel {
 
             btns[i].addActionListener(e->{
                 String sourceText = ((JButton) e.getSource()).getText();
-                String newText = controller.handleNumPadInput(input.getText(), sourceText);
-                input.setText(newText);
-                //Controller returns newText
+                String inputText = numPadController.handleNumPadInput(input.getText(), sourceText);
+                if(sourceText.equals("Enter")){
+                    Product p = searchController.findByPnu(inputText);
+                    cartController.addProduct(p);
+                }
+                else{
+                    input.setText(inputText);
+                }
+                //Controller returns inputText
 
                 /*This could be either PRODUCT ID, PRODUCT WEIGHT OR PRICE
                 * DEFAULT: product id, so we can quickly add the product to the cart

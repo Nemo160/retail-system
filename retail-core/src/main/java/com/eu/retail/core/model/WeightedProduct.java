@@ -1,16 +1,21 @@
 package com.eu.retail.core.model;
 
 public class WeightedProduct extends Product{
-    private int PNU;
+    private int pnu;
     private String name;
     private double price;
     private String desc;
-    public WeightedProduct(int PNU, String name, double price, String desc) {
-        super(PNU, name, price, desc);
-        this.PNU = PNU;
+    public WeightedProduct(int pnu, String name, double price, String desc) {
+        super(pnu, name, price, desc);
+        this.pnu = pnu;
         this.name = name;
         this.price = price;
         this.desc = desc;
+    }
+
+    @Override
+    public boolean isWeighted() {
+        return true;
     }
 
     @Override
