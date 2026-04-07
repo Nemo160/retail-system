@@ -7,22 +7,25 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Setter @Getter
-public class Product {
-    public enum PricingType{
-        UNIT,
-        PER_KG
-    }
+public abstract class Product {
+    private int PNU;
     private String name;
     private double price;
     private String desc;
-    private PricingType pricingType;
-    public Product(String name, double price, String desc, PricingType pricingType){
+
+
+    public Product(int PNU, String name, double price, String desc){
+        this.PNU = PNU;
         this.name = name;
         this.price = price;
         this.desc = desc;
-        this.pricingType = pricingType;
+
 
     }
+
+    public abstract double calculateTotal(double amount);
+
+    /*
     @Override
     public String toString() {
         if(pricingType == PricingType.PER_KG){
@@ -32,4 +35,5 @@ public class Product {
             return String.format("%s - $%.2f", name, price);
         }
     }
+    */
 }
