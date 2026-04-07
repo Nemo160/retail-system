@@ -1,6 +1,8 @@
 package com.eu.retail.cashier.ui;
 
 import com.eu.retail.core.model.Product;
+import com.eu.retail.core.model.UnitProduct;
+import com.eu.retail.core.model.WeightedProduct;
 
 import javax.swing.*;
 
@@ -8,9 +10,13 @@ import java.awt.*;
 
 
 public class CashierFrame extends JFrame{
+    CartPanel cart = new CartPanel();
+    NumPad numPad = new NumPad(cart.getModel());
+    CategoriesPanel categoriesPanel = new CategoriesPanel();
+    CashierOptions cashierOptions = new CashierOptions();
     public CashierFrame(){
         setTitle("Cashier");
-        setSize(1000,700);
+        setSize(1280,960);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -20,30 +26,55 @@ public class CashierFrame extends JFrame{
 
     }
     private void initUI(){
-        CartPanel cart = new CartPanel();
-        cart.setPreferredSize(new Dimension(400,700));
+        JPanel mainframe = new JPanel(new BorderLayout());
+        JPanel leftPanel = new JPanel(new BorderLayout());
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        //cart.setPreferredSize(new Dimension(400,700));
+        rightPanel.setPreferredSize(new Dimension(400,700));
+
+        rightPanel.add(cart,BorderLayout.NORTH);
+        rightPanel.add(numPad,BorderLayout.SOUTH);
+
+        leftPanel.add(cashierOptions,BorderLayout.SOUTH);
+        leftPanel.add(categoriesPanel, BorderLayout.CENTER);
+        cashierOptions.setBorder(BorderFactory.createTitledBorder("Options"));
+        numPad.setBorder(BorderFactory.createTitledBorder("NUMPAD"));
+        cart.setBorder(BorderFactory.createTitledBorder("CART"));
+
+        rightPanel.setBorder(BorderFactory.createTitledBorder("RIGHT"));
+        leftPanel.setBorder(BorderFactory.createTitledBorder("LEFT"));
+
+
 
         //DEBUGG TEST ADD, implement addItem to cartpanel
-        JPanel tempPanel = new JPanel();
+
         JButton testButton = new JButton("APPLE");
         testButton.setPreferredSize(new Dimension(100,100));
         testButton.addActionListener(e->{
            addTest();
         });
-        tempPanel.add(testButton);
+        leftPanel.add(testButton, BorderLayout.CENTER);
 
-        add(tempPanel, BorderLayout.CENTER);
-        add(cart, BorderLayout.EAST);
+        //add(tempPanel, BorderLayout.CENTER);
+        add(rightPanel,BorderLayout.EAST);
+        add(leftPanel,BorderLayout.WEST);
+        //mainframe.add(cart, BorderLayout.EAST);
+       // mainframe.add(categoriesPanel, BorderLayout.CENTER);
+     //   mainframe.add(cashierOptions, BorderLayout.SOUTH);
         //panel.add(cart);
 
 
 
         // main.add(test,BorderLayout.EAST);
-       // this.pack();
+       //this.pack();
     }
 
     private void addTest(){
-        CartPanel.addItem(new Product("APPLE",20.0,"thistestAPPLE", Product.PricingType.UNIT));
+        WeightedProduct apple = new WeightedProduct(103,"Apple", 0.2,"de");
+        UnitProduct cereal = new UnitProduct(93,"Cereal",25.0,"Cereal");
+        cart.addItem(apple);
+        cart.addItem(cereal);
+        //cart.addItem(new Product(102,"APPLE",20.0,"thistestAPPLE");
         this.repaint();
     }
 
