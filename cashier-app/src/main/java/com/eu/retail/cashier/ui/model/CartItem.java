@@ -2,6 +2,8 @@ package com.eu.retail.cashier.ui.model;
 
 import com.eu.retail.core.model.Product;
 
+import java.math.BigDecimal;
+
 public class CartItem {
     private Product product;
     private int quantity;
@@ -11,7 +13,6 @@ public class CartItem {
     public CartItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
-        this.weight = 0;
     }
 
     //Weighted constructor
@@ -28,33 +29,36 @@ public class CartItem {
         return product;
     }
     public void setQuantity(int q){
-        this.quantity = quantity;
+        this.quantity = q;
     }
 
     public double getWeight() {
         return weight;
     }
-    public double getTotalPrice() {
-        if (product.isWeighted()) {
+
+    public BigDecimal getTotalPrice() {
+        if(product.isWeighted()){
             return product.calculateTotal(weight);
-        } else {
+        }
+        else{
             return product.calculateTotal(quantity);
         }
     }
 
     @Override
     public String toString() {
-        if (product.isWeighted()) {
+        if(product.isWeighted()){
             return String.format(
-                    "%s (%.1f kg × %.2fKr/kg) - $%.2f",
+                    "%s (%.1f kg × %.2fKr/kg) - %.2f",
                     product.getName(),
                     weight,
                     product.getPrice(),
                     getTotalPrice()
             );
-        } else {
+        }
+        else{
             return String.format(
-                    "%s (%d × %.2fKr) - $%.2f",
+                    "%s (%d × %.2fKr) - %.2f",
                     product.getName(),
                     quantity,
                     product.getPrice(),

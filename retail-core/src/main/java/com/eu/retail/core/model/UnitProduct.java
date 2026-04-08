@@ -1,11 +1,13 @@
 package com.eu.retail.core.model;
 
+import java.math.BigDecimal;
+
 public class UnitProduct extends Product{
     private int pnu;
     private String name;
-    private double price;
+    private BigDecimal price;
     private String desc;
-    public UnitProduct(int pnu, String name, double price, String desc) {
+    public UnitProduct(int pnu, String name, BigDecimal price, String desc) {
         super(pnu, name, price, desc);
         this.pnu = pnu;
         this.name = name;
@@ -19,9 +21,11 @@ public class UnitProduct extends Product{
     }
 
     @Override
-    public double calculateTotal(double amount) {
-        return getPrice()* (int) amount;
+    public BigDecimal calculateTotal(double a) {
+        BigDecimal amount = new BigDecimal(a);
+        return amount.multiply(getPrice());
     }
+
 
 
     @Override

@@ -32,6 +32,7 @@ public class NumPadPanel extends JPanel {
         this.cartController = cartController;
         setLayout(new BorderLayout());
         setBackground(Color.RED);
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 
         //input window panel
@@ -63,6 +64,7 @@ public class NumPadPanel extends JPanel {
                 if(sourceText.equals("Enter")){
                     Product p = searchController.findByPnu(inputText);
                     cartController.addProduct(p);
+                    input.setText("");
                 }
                 else{
                     input.setText(inputText);
