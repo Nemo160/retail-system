@@ -1,6 +1,5 @@
-package com.eu.retail.cashier.ui;
+package com.eu.retail.cashier.ui.categories;
 
-import javax.smartcardio.Card;
 import javax.swing.*;
 import java.awt.*;
 

@@ -1,7 +1,7 @@
-package com.eu.retail.cashier.ui.controller;
+package com.eu.retail.cashier.controller;
 
-import com.eu.retail.cashier.ui.CartUIListener;
-import com.eu.retail.cashier.ui.model.CartItem;
+import com.eu.retail.cashier.ui.events.CartUIListener;
+import com.eu.retail.cashier.model.CartItem;
 import com.eu.retail.core.model.Product;
 
 import javax.swing.*;

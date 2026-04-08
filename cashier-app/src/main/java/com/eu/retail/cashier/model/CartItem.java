@@ -1,4 +1,4 @@
-package com.eu.retail.cashier.ui.model;
+package com.eu.retail.cashier.model;
 
 import com.eu.retail.core.model.Product;
 
@@ -49,7 +49,7 @@ public class CartItem {
     public String toString() {
         if(product.isWeighted()){
             return String.format(
-                    "%s (%.1f kg × %.2fKr/kg) - %.2f",
+                    "%s (%.2f kg × %.2fKr/kg) - %.2f",
                     product.getName(),
                     weight,
                     product.getPrice(),

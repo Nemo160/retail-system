@@ -1,8 +1,8 @@
 package com.eu.retail.cashier.ui;
 
-import com.eu.retail.cashier.ui.controller.CartController;
-import com.eu.retail.cashier.ui.controller.NumPadController;
-import com.eu.retail.cashier.ui.controller.SearchController;
+import com.eu.retail.cashier.controller.CartController;
+import com.eu.retail.cashier.controller.NumPadController;
+import com.eu.retail.cashier.controller.SearchController;
 import com.eu.retail.core.model.Product;
 
 import javax.swing.*;
@@ -21,15 +21,16 @@ public class NumPadPanel extends JPanel {
     JTextArea input = new JTextArea(1,10);
 
 
-    SearchController searchController = new SearchController();
+    SearchController searchController;
     NumPadController numPadController = new NumPadController();
     JPanel topPanel = new JPanel(new BorderLayout());
     JPanel bottomPanel = new JPanel(new BorderLayout());
     private final CartController cartController;
 
-    public NumPadPanel(CartController cartController){
+    public NumPadPanel(CartController cartController, SearchController searchController){
         this.model= model;
         this.cartController = cartController;
+        this.searchController = searchController;
         setLayout(new BorderLayout());
         setBackground(Color.RED);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -62,8 +63,7 @@ public class NumPadPanel extends JPanel {
                 String sourceText = ((JButton) e.getSource()).getText();
                 String inputText = numPadController.handleNumPadInput(input.getText(), sourceText);
                 if(sourceText.equals("Enter")){
-                    Product p = searchController.findByPnu(inputText);
-                    cartController.addProduct(p);
+                    searchController.searchByPnuAndAdd(Integer.parseInt(inputText));
                     input.setText("");
                 }
                 else{

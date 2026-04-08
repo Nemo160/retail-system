@@ -1,6 +1,6 @@
-package com.eu.retail.cashier.ui;
+package com.eu.retail.cashier.util;
 
-public class CommonConstant {
+public class Constants {
     //main panels dimensions
     public static int RIGHT_PANEL_WIDTH = 400;
     public static int RIGHT_PANEL_HEIGHT = 960;

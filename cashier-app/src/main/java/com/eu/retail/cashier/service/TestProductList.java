@@ -1,4 +1,4 @@
-package com.eu.retail.cashier.ui.model;
+package com.eu.retail.cashier.service;
 
 import com.eu.retail.core.model.Product;
 import com.eu.retail.core.model.UnitProduct;

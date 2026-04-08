@@ -1,7 +1,8 @@
-package com.eu.retail.cashier.ui;
+package com.eu.retail.cashier.ui.cart;
 
-import com.eu.retail.cashier.ui.controller.CartController;
-import com.eu.retail.cashier.ui.model.CartItem;
+import com.eu.retail.cashier.controller.CartController;
+import com.eu.retail.cashier.model.CartItem;
+import com.eu.retail.cashier.ui.events.CartUIListener;
 import com.eu.retail.core.model.*;
 import javax.swing.*;
 import java.awt.*;
@@ -15,40 +16,48 @@ public class CartPanel extends JPanel implements CartUIListener {
 
     private CartController cartController;
 
-    private JPanel buttonsPanel = new JPanel();
-    private JScrollPane scrollPane = new JScrollPane();
-    private JPanel totalSumPanel = new JPanel();
-    private JButton remBtn;
+    private JPanel buttonsPanel, totalSumPanel, topPanel;
+    private JScrollPane scrollPane;
+    private JButton remBtn, pauseCartBtn;
     private JLabel total = new JLabel();
-    //CartUIListener uiListener;
 
     public CartPanel(DefaultListModel<CartItem> model, CartController cartController){
-        //this.uiListener = this;
         this.model = model;
         this.cartController = cartController;
-        //cartController = new CartController(model,this);
+        cartList.setModel(model);
+
+
         setBackground(Color.orange);
         setLayout(new BorderLayout());
 
-        //initNumPad();
+        initPanels();
         initButtons();
-        initScroll();
-
-
-
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.add(buttonsPanel, BorderLayout.SOUTH);
-        topPanel.add(totalSumPanel, BorderLayout.CENTER);
-        topPanel.add(scrollPane, BorderLayout.NORTH);
 
         add(topPanel, BorderLayout.CENTER);
 
-
     }
-
-    private void initButtons(){
+    private void initPanels(){
+        topPanel = new JPanel(new BorderLayout());
+        buttonsPanel = new JPanel();
+        totalSumPanel = new JPanel();
 
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        scrollPane = new JScrollPane(cartList);
+        scrollPane.setPreferredSize(new Dimension(250,600));
+        totalSumPanel.setPreferredSize(new Dimension(250,50));
+
+        cartList.setFont(new Font("Arial",Font.BOLD,15));
+        total.setText("Total: " + cartController.calculateCartTotal());
+        total.setFont(new Font("Arial",Font.BOLD,20));
+
+        totalSumPanel.add(total);
+        topPanel.add(buttonsPanel, BorderLayout.SOUTH);
+        topPanel.add(totalSumPanel, BorderLayout.CENTER);
+        topPanel.add(scrollPane, BorderLayout.NORTH);
+    }
+    private void initButtons(){
+
 
         remBtn = new JButton("Remove Item");
         remBtn.addActionListener(e -> {
@@ -56,29 +65,19 @@ public class CartPanel extends JPanel implements CartUIListener {
 
         });
 
-        JButton test2 = new JButton("Test2Btn");
+        pauseCartBtn = new JButton("Pause Cart");
         JButton test3 = new JButton("Test3Btn");
         JButton test4 = new JButton("Test4Btn");
 
 
 
         buttonsPanel.add(remBtn);
-        buttonsPanel.add(test2);
+        buttonsPanel.add(pauseCartBtn);
         buttonsPanel.add(test3);
         buttonsPanel.add(test4);
     }
 
     private void initScroll(){
-        cartList.setModel(model);
-        scrollPane = new JScrollPane(cartList);
-        scrollPane.setPreferredSize(new Dimension(250,600));
-        totalSumPanel.setPreferredSize(new Dimension(200,50));
-        totalSumPanel.add(total);
-        cartList.setFont(new Font("Arial",Font.BOLD,15));
-
-        total.setText("Total: " + cartController.calculateCartTotal());
-        total.setFont(new Font("Arial",Font.BOLD,20));
-
 
     }
 

@@ -1,9 +1,14 @@
 package com.eu.retail.cashier.ui;
 
-import com.eu.retail.cashier.ui.controller.CartController;
-import com.eu.retail.cashier.ui.controller.NumPadController;
-import com.eu.retail.cashier.ui.controller.SearchController;
-import com.eu.retail.cashier.ui.model.CartItem;
+import com.eu.retail.cashier.service.ProductCatalog;
+import com.eu.retail.cashier.ui.cart.CartPanel;
+import com.eu.retail.cashier.ui.events.CartUIListener;
+import com.eu.retail.cashier.ui.categories.CategoriesPanel;
+import com.eu.retail.cashier.controller.CartController;
+import com.eu.retail.cashier.controller.NumPadController;
+import com.eu.retail.cashier.controller.SearchController;
+import com.eu.retail.cashier.model.CartItem;
+import com.eu.retail.cashier.ui.settings.CashierSettingsPanel;
 import com.eu.retail.core.model.Product;
 import com.eu.retail.core.model.UnitProduct;
 import com.eu.retail.core.model.WeightedProduct;
@@ -14,7 +19,7 @@ import java.awt.*;
 import java.math.BigDecimal;
 
 
-public class CashierFrame extends JFrame implements CartUIListener{
+public class CashierFrame extends JFrame implements CartUIListener {
    //Controllers
     private CartController cartController;
     private SearchController searchController;
@@ -24,13 +29,15 @@ public class CashierFrame extends JFrame implements CartUIListener{
     private CartPanel cartPanel;
     private CategoriesPanel categoriesPanel;
     private NumPadPanel numPadPanel;
-    private CashierOptionsPanel cashierOptionsPanel;
+    private CashierSettingsPanel cashierSettingsPanel;
 
     //list
     private DefaultListModel<CartItem> model;
+    private ProductCatalog productCatalog;
 
-    public CashierFrame(){
-
+    public CashierFrame(ProductCatalog productCatalog){
+        this.productCatalog = productCatalog;
+        setVisible(true);
         model = new DefaultListModel<>();
 
         initControllers();
@@ -52,13 +59,13 @@ public class CashierFrame extends JFrame implements CartUIListener{
     private void initPanels(){
         cartPanel = new CartPanel(model, cartController);
         categoriesPanel = new CategoriesPanel();
-        cashierOptionsPanel = new CashierOptionsPanel();
-        numPadPanel = new NumPadPanel(cartController);
+        cashierSettingsPanel = new CashierSettingsPanel();
+        numPadPanel = new NumPadPanel(cartController,searchController);
     }
 
     private void initControllers(){
         cartController = new CartController(model,this);
-        searchController = new SearchController();
+        searchController = new SearchController(productCatalog,cartController);
         numPadController = new NumPadController();
     }
     private void initUI(){
@@ -67,7 +74,7 @@ public class CashierFrame extends JFrame implements CartUIListener{
 
 
         //set debugging borders
-        cashierOptionsPanel.setBorder(BorderFactory.createTitledBorder("Options"));
+        cashierSettingsPanel.setBorder(BorderFactory.createTitledBorder("Options"));
         numPadPanel.setBorder(BorderFactory.createTitledBorder("NUMPAD"));
         cartPanel.setBorder(BorderFactory.createTitledBorder("CART"));
         categoriesPanel.setBorder(BorderFactory.createTitledBorder("Category"));
@@ -78,7 +85,7 @@ public class CashierFrame extends JFrame implements CartUIListener{
         rightPanel.add(cartPanel,BorderLayout.NORTH);
         rightPanel.add(numPadPanel,BorderLayout.CENTER);
 
-        leftPanel.add(cashierOptionsPanel,BorderLayout.SOUTH);
+        leftPanel.add(cashierSettingsPanel,BorderLayout.SOUTH);
         leftPanel.add(categoriesPanel, BorderLayout.CENTER);
 
 
@@ -86,7 +93,7 @@ public class CashierFrame extends JFrame implements CartUIListener{
         JButton testButton = new JButton("APPLE");
         testButton.setPreferredSize(new Dimension(100,100));
         testButton.addActionListener(e-> addTest());
-        cashierOptionsPanel.add(testButton);
+        cashierSettingsPanel.add(testButton);
 
         //leftPanel.add(testButton, BorderLayout.NORTH);
 

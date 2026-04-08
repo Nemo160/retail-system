@@ -1,4 +1,4 @@
-package com.eu.retail.cashier.ui;
+package com.eu.retail.cashier.ui.events;
 
 import com.eu.retail.core.model.Product;
 

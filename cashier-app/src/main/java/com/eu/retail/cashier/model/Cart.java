@@ -1,4 +1,4 @@
-package com.eu.retail.cashier.ui.model;
+package com.eu.retail.cashier.model;
 
 public class Cart {
 

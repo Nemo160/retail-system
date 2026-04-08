@@ -1,4 +1,4 @@
-package com.eu.retail.cashier.ui.controller;
+package com.eu.retail.cashier.controller;
 
 public class NumPadController {
     public NumPadController(){
