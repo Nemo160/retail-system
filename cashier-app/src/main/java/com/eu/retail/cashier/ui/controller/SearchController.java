@@ -14,6 +14,7 @@ public class SearchController {
     }
 
     public Product findByPnu(String p){
+        if(p.isEmpty()){ return null;}
         int pnu = Integer.parseInt(p);
         for(Product i : productList){
             if((i.getPnu() == pnu)){

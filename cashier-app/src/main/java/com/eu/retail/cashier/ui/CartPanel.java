@@ -5,6 +5,7 @@ import com.eu.retail.cashier.ui.model.CartItem;
 import com.eu.retail.core.model.*;
 import javax.swing.*;
 import java.awt.*;
+import java.math.BigDecimal;
 
 public class CartPanel extends JPanel implements CartUIListener {
     //private final int WIDTH = 200;
@@ -16,7 +17,9 @@ public class CartPanel extends JPanel implements CartUIListener {
 
     private JPanel buttonsPanel = new JPanel();
     private JScrollPane scrollPane = new JScrollPane();
+    private JPanel totalSumPanel = new JPanel();
     private JButton remBtn;
+    private JLabel total = new JLabel();
     //CartUIListener uiListener;
 
     public CartPanel(DefaultListModel<CartItem> model, CartController cartController){
@@ -32,9 +35,11 @@ public class CartPanel extends JPanel implements CartUIListener {
         initScroll();
 
 
+
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(buttonsPanel, BorderLayout.SOUTH);
-        topPanel.add(scrollPane, BorderLayout.CENTER);
+        topPanel.add(totalSumPanel, BorderLayout.CENTER);
+        topPanel.add(scrollPane, BorderLayout.NORTH);
 
         add(topPanel, BorderLayout.CENTER);
 
@@ -48,8 +53,7 @@ public class CartPanel extends JPanel implements CartUIListener {
         remBtn = new JButton("Remove Item");
         remBtn.addActionListener(e -> {
             cartController.removeSelected(cartList);
-            //FOR DEBUGGING
-            //printout();
+
         });
 
         JButton test2 = new JButton("Test2Btn");
@@ -66,17 +70,17 @@ public class CartPanel extends JPanel implements CartUIListener {
 
     private void initScroll(){
         cartList.setModel(model);
-
         scrollPane = new JScrollPane(cartList);
         scrollPane.setPreferredSize(new Dimension(250,600));
+        totalSumPanel.setPreferredSize(new Dimension(200,50));
+        totalSumPanel.add(total);
+        cartList.setFont(new Font("Arial",Font.BOLD,15));
+
+        total.setText("Total: " + cartController.calculateCartTotal());
+        total.setFont(new Font("Arial",Font.BOLD,20));
+
 
     }
-
-
-    public void addItem(Product p){
-       cartController.addProduct(p);
-    }
-
 
     public void promptForWeight(Product product){
         String value = JOptionPane.showInputDialog(this,
@@ -92,11 +96,21 @@ public class CartPanel extends JPanel implements CartUIListener {
             }
         }
     }
+    public void updateCartTotal(BigDecimal sum){
+        String formatted = String.format("%.2f", sum);
+        total.setText("Total: " + formatted );
+    }
 
 
     @Override
     public void requestWeightInput(Product product) {
 
     }
+
+    @Override
+    public void uiRequestUpdateCartTotal(BigDecimal sum) {
+
+    }
+
 
 }

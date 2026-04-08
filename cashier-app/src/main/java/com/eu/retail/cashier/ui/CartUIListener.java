@@ -2,7 +2,10 @@ package com.eu.retail.cashier.ui;
 
 import com.eu.retail.core.model.Product;
 
-    public interface CartUIListener {
+import java.math.BigDecimal;
+
+public interface CartUIListener {
         void requestWeightInput(Product product);
+        void uiRequestUpdateCartTotal(BigDecimal sum);
     }
 

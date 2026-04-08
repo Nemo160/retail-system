@@ -11,6 +11,7 @@ import com.eu.retail.core.model.WeightedProduct;
 import javax.swing.*;
 
 import java.awt.*;
+import java.math.BigDecimal;
 
 
 public class CashierFrame extends JFrame implements CartUIListener{
@@ -63,9 +64,6 @@ public class CashierFrame extends JFrame implements CartUIListener{
     private void initUI(){
         JPanel leftPanel = new JPanel(new BorderLayout());
         JPanel rightPanel = new JPanel(new BorderLayout());
-        //cart.setPreferredSize(new Dimension(400,700));
-        //rightPanel.setPreferredSize(new Dimension(CommonConstant.RIGHT_PANEL_WIDTH,CommonConstant.RIGHT_PANEL_HEIGHT));
-      //  leftPanel.setPreferredSize(new Dimension(CommonConstant.LEFT_PANEL_WIDTH,CommonConstant.LEFT_PANEL_HEIGHT));
 
 
         //set debugging borders
@@ -73,9 +71,10 @@ public class CashierFrame extends JFrame implements CartUIListener{
         numPadPanel.setBorder(BorderFactory.createTitledBorder("NUMPAD"));
         cartPanel.setBorder(BorderFactory.createTitledBorder("CART"));
         categoriesPanel.setBorder(BorderFactory.createTitledBorder("Category"));
-
         rightPanel.setBorder(BorderFactory.createTitledBorder("RIGHT"));
         leftPanel.setBorder(BorderFactory.createTitledBorder("LEFT"));
+
+
         rightPanel.add(cartPanel,BorderLayout.NORTH);
         rightPanel.add(numPadPanel,BorderLayout.CENTER);
 
@@ -102,12 +101,13 @@ public class CashierFrame extends JFrame implements CartUIListener{
     }
 
     private void addTest(){
-        WeightedProduct apple = new WeightedProduct(103,"Apple", 0.2,"de");
-        UnitProduct cereal = new UnitProduct(93,"Cereal",25.0,"Cereal");
-        Product prod = new UnitProduct(100,"test",0.0,"testDESc");
-        cartPanel.addItem(apple);
-        cartPanel.addItem(cereal);
-        cartPanel.addItem(prod);
+        WeightedProduct apple = new WeightedProduct(103,"Apple", new BigDecimal("0.2"),"de");
+        UnitProduct cereal = new UnitProduct(93,"Cereal",new BigDecimal("20.0"),"Cereal");
+        Product prod = new UnitProduct(100,"test",new BigDecimal("10.0"),"testDESc");
+        cartController.addProduct(apple);
+        cartController.addProduct(cereal);
+        cartController.addProduct(prod);
+
         //this.repaint();
     }
 
@@ -115,5 +115,10 @@ public class CashierFrame extends JFrame implements CartUIListener{
     @Override
     public void requestWeightInput(Product product) {
         cartPanel.promptForWeight(product);
+    }
+
+    @Override
+    public void uiRequestUpdateCartTotal(BigDecimal sum) {
+        cartPanel.updateCartTotal(sum);
     }
 }
