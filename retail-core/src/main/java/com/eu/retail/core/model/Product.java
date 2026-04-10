@@ -19,6 +19,7 @@ public abstract class Product {
         this.price = price;
         this.desc = desc;
     }
+
     public abstract boolean isWeighted();
 
     public abstract BigDecimal calculateTotal(double amount);

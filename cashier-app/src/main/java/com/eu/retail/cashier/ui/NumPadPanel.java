@@ -69,14 +69,6 @@ public class NumPadPanel extends JPanel {
                 else{
                     input.setText(inputText);
                 }
-                //Controller returns inputText
-
-                /*This could be either PRODUCT ID, PRODUCT WEIGHT OR PRICE
-                * DEFAULT: product id, so we can quickly add the product to the cart
-                  OPTION 2: Enter weight when prompted.
-                  OPTION 3: Set price when prompted.
-                  * for now, we have simply print out what has been input.
-                * */
 
             });
             bottomPanel.add(btns[i]);

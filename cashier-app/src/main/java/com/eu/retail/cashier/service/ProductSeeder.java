@@ -12,7 +12,7 @@ public class ProductSeeder {
                 VALUES (?, ?, ?, ?, ?)
                 """;
 
-        try (Connection conn = DatabaseManager.getConnection();
+        try (Connection conn = DatabaseManager.getConnection("products");
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, 93);

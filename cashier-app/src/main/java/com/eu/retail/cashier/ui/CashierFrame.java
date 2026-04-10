@@ -8,6 +8,7 @@ import com.eu.retail.cashier.controller.CartController;
 import com.eu.retail.cashier.controller.NumPadController;
 import com.eu.retail.cashier.controller.SearchController;
 import com.eu.retail.cashier.model.CartItem;
+import com.eu.retail.cashier.ui.login.LoginFrame;
 import com.eu.retail.cashier.ui.settings.CashierSettingsPanel;
 import com.eu.retail.core.model.Product;
 import com.eu.retail.core.model.UnitProduct;
@@ -35,24 +36,33 @@ public class CashierFrame extends JFrame implements CartUIListener {
     private DefaultListModel<CartItem> model;
     private ProductCatalog productCatalog;
 
+    public static boolean employee = false;
+    private LoginFrame loginFrame;
+
     public CashierFrame(ProductCatalog productCatalog){
-        this.productCatalog = productCatalog;
         setVisible(true);
+        setTitle("Cashier");
+        setSize(1280,960);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        loginFrame = new LoginFrame();
+
+        if(!employee){
+            return;
+        }
+
+        this.productCatalog = productCatalog;
         model = new DefaultListModel<>();
 
         initControllers();
         initPanels();
 
 
-        setTitle("Cashier");
-        setSize(1280,960);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+
 
         initUI();
 
-        setVisible(true);
 
     }
 

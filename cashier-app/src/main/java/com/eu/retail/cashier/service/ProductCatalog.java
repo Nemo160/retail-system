@@ -14,7 +14,7 @@ public class ProductCatalog {
     public Product findByPnu(int pnu) {
         String sql = "SELECT * FROM products WHERE pnu = ?";
 
-        try(Connection conn = DatabaseManager.getConnection();
+        try(Connection conn = DatabaseManager.getConnection("products");
              PreparedStatement ps = conn.prepareStatement(sql)){
 
             ps.setInt(1, pnu);
@@ -36,7 +36,7 @@ public class ProductCatalog {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products WHERE name LIKE ?";
 
-        try(Connection conn = DatabaseManager.getConnection();
+        try(Connection conn = DatabaseManager.getConnection("products");
              PreparedStatement ps = conn.prepareStatement(sql)){
 
             ps.setString(1, "%" + name + "%");

@@ -17,7 +17,7 @@ public class DatabaseInitializer {
                 );
                 """;
 
-        try (Connection conn = DatabaseManager.getConnection();
+        try (Connection conn = DatabaseManager.getConnection("products");
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
