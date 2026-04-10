@@ -8,8 +8,9 @@ import com.eu.retail.cashier.controller.CartController;
 import com.eu.retail.cashier.controller.NumPadController;
 import com.eu.retail.cashier.controller.SearchController;
 import com.eu.retail.cashier.model.CartItem;
-import com.eu.retail.cashier.ui.login.LoginFrame;
+import com.eu.retail.cashier.ui.login.LoginDialog;
 import com.eu.retail.cashier.ui.settings.CashierSettingsPanel;
+import com.eu.retail.core.model.Employee;
 import com.eu.retail.core.model.Product;
 import com.eu.retail.core.model.UnitProduct;
 import com.eu.retail.core.model.WeightedProduct;
@@ -36,33 +37,37 @@ public class CashierFrame extends JFrame implements CartUIListener {
     private DefaultListModel<CartItem> model;
     private ProductCatalog productCatalog;
 
-    public static boolean employee = false;
-    private LoginFrame loginFrame;
-
+    private LoginDialog loginDialog;
+    private Employee loggedInEmployee;
     public CashierFrame(ProductCatalog productCatalog){
         setVisible(true);
+
         setTitle("Cashier");
         setSize(1280,960);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        loginFrame = new LoginFrame();
 
-        if(!employee){
+        loginDialog = new LoginDialog(this);
+        loginDialog.setVisible(true);
+        loggedInEmployee = loginDialog.getLoggedInEmployee();
+
+        if(loggedInEmployee == null){
+            System.out.println("SUCCESS LOGIN");
+            dispose();
             return;
         }
-
         this.productCatalog = productCatalog;
         model = new DefaultListModel<>();
 
         initControllers();
         initPanels();
 
-
-
-
         initUI();
 
+        setVisible(true); //finally shows da shit
+
+        repaint();
 
     }
 

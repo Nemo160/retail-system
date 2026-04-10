@@ -11,6 +11,52 @@ import java.util.List;
 
 public class EmployeeCatalog {
 
+    public Employee loginEmployee(int employeID, String password){
+        String sql = """
+        SELECT e.*
+        FROM employees e
+        JOIN employee_login l ON e.employeeID = l.employeeID
+        WHERE l.employeeID = ? AND l.password = ?
+        """;
+        try(Connection conn = DatabaseManager.getConnection("employees");
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setInt(1,employeID);
+            ps.setString(2,password);
+
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    return mapRowToEmployee(rs);
+                }
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static boolean isValidLogin(int employeeID, String password) {
+        String sql = "SELECT 1 FROM employee_login WHERE employeeID = ? AND password = ?";
+
+        try (Connection conn = DatabaseManager.getConnection("employees");
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, employeeID);
+            ps.setString(2, password);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
     public Employee findEmployeeById(int employeID){
         String sql = "SELECT * FROM employees WHERE employeeID = ?";
 

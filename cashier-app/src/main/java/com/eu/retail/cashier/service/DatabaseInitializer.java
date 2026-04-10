@@ -8,16 +8,13 @@ public class DatabaseInitializer {
 
     public static void initialize() {
         String sql = """
-                CREATE TABLE IF NOT EXISTS products (
-                    pnu INTEGER PRIMARY KEY,
-                    name TEXT NOT NULL,
-                    price REAL NOT NULL,
-                    description TEXT,
-                    is_weighted INTEGER NOT NULL
+                CREATE TABLE IF NOT EXISTS employee_cashier_data (
+                    employeeID INTEGER PRIMARY KEY,
+                    password INTEGER NOT NULL
                 );
                 """;
 
-        try (Connection conn = DatabaseManager.getConnection("products");
+        try (Connection conn = DatabaseManager.getConnection("employee");
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
