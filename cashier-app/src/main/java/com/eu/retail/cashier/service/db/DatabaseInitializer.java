@@ -1,4 +1,4 @@
-package com.eu.retail.cashier.service;
+package com.eu.retail.cashier.service.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;

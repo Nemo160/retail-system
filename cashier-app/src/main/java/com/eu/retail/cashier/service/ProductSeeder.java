@@ -1,5 +1,7 @@
 package com.eu.retail.cashier.service;
 
+import com.eu.retail.cashier.service.db.DatabaseManager;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

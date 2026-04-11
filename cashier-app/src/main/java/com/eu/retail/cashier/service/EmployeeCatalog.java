@@ -1,5 +1,6 @@
 package com.eu.retail.cashier.service;
 
+import com.eu.retail.cashier.service.db.DatabaseManager;
 import com.eu.retail.core.model.Employee;
 
 import java.sql.Connection;

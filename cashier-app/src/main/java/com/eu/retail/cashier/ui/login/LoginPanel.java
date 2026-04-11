@@ -28,7 +28,7 @@ public class LoginPanel extends JPanel {
         password.setPreferredSize(new Dimension(80, 10));
 
         JLabel usernameLabel = new JLabel("Username:");
-        JLabel passwordLabel = new JLabel("Password:", SwingConstants.LEFT);
+        JLabel passwordLabel = new JLabel("Password:");
 
 
         topPanel.add(usernameLabel);
@@ -37,6 +37,17 @@ public class LoginPanel extends JPanel {
         topPanel.add(password);
 
 
+        JButton loginButton = getJButton(loginListener, username, password);
+
+
+        bottomPanel.add(loginButton);
+
+        add(topPanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+    }
+
+    private JButton getJButton(LoginListener loginListener, JTextField username, JPasswordField password) {
         JButton loginButton = new JButton("Login");
         loginButton.setPreferredSize(new Dimension(100, 30));
         loginButton.addActionListener(e->{
@@ -68,16 +79,7 @@ public class LoginPanel extends JPanel {
 
 
         });
-
-
-        bottomPanel.add(loginButton);
-
-        add(topPanel, BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.SOUTH);
-
+        return loginButton;
     }
 
-    private Employee login(int id, String password) {
-        return employeeCatalog.loginEmployee(id,password);
-    }
 }
