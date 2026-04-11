@@ -39,6 +39,7 @@ public class CashierFrame extends JFrame implements CartUIListener {
 
     private LoginDialog loginDialog;
     private Employee loggedInEmployee;
+    private static int cashierID;
     public CashierFrame(ProductCatalog productCatalog){
         setVisible(true);
 
@@ -51,12 +52,9 @@ public class CashierFrame extends JFrame implements CartUIListener {
         loginDialog = new LoginDialog(this);
         loginDialog.setVisible(true);
         loggedInEmployee = loginDialog.getLoggedInEmployee();
+        cashierID = loggedInEmployee.getEmployeeID();
+        System.out.println("\ncashierID:"+cashierID);
 
-        if(loggedInEmployee == null){
-            System.out.println("SUCCESS LOGIN");
-            dispose();
-            return;
-        }
         this.productCatalog = productCatalog;
         model = new DefaultListModel<>();
 
@@ -142,5 +140,9 @@ public class CashierFrame extends JFrame implements CartUIListener {
     @Override
     public void uiRequestUpdateCartTotal(BigDecimal sum) {
         cartPanel.updateCartTotal(sum);
+    }
+    public static String getCashierID()
+    {
+        return Integer.toString(cashierID);
     }
 }

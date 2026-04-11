@@ -2,6 +2,7 @@ package com.eu.retail.cashier.ui.cart;
 
 import com.eu.retail.cashier.controller.CartController;
 import com.eu.retail.cashier.model.CartItem;
+import com.eu.retail.cashier.ui.CashierFrame;
 import com.eu.retail.cashier.ui.events.CartUIListener;
 import com.eu.retail.core.model.*;
 import javax.swing.*;
@@ -19,11 +20,12 @@ public class CartPanel extends JPanel implements CartUIListener {
     private JPanel buttonsPanel, totalSumPanel, topPanel;
     private JScrollPane scrollPane;
     private JButton remBtn, pauseCartBtn;
-    private JLabel total = new JLabel();
-
+    private JLabel totalLabel = new JLabel();
+    private String cashierID;
     public CartPanel(DefaultListModel<CartItem> model, CartController cartController){
         this.model = model;
         this.cartController = cartController;
+        cashierID = CashierFrame.getCashierID();
         cartList.setModel(model);
 
 
@@ -39,8 +41,8 @@ public class CartPanel extends JPanel implements CartUIListener {
     private void initPanels(){
         topPanel = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel();
-        totalSumPanel = new JPanel();
 
+        totalSumPanel = new JPanel(new BorderLayout());
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         scrollPane = new JScrollPane(cartList);
@@ -48,10 +50,23 @@ public class CartPanel extends JPanel implements CartUIListener {
         totalSumPanel.setPreferredSize(new Dimension(250,50));
 
         cartList.setFont(new Font("Arial",Font.BOLD,15));
-        total.setText("Total: " + cartController.calculateCartTotal());
-        total.setFont(new Font("Arial",Font.BOLD,20));
+        totalLabel.setText("Total: " + cartController.calculateCartTotal());
+        totalLabel.setFont(new Font("Arial",Font.BOLD,20));
 
-        totalSumPanel.add(total);
+        //CashierId & cart total
+        JLabel cashierLabel = new JLabel("ID: "+ cashierID);
+        cashierLabel.setForeground(new Color(153, 255, 51));
+        cashierLabel.setFont(new Font("Arial",Font.BOLD,16));
+        cashierLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,10));
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,10));
+        leftPanel.add(totalLabel);
+        rightPanel.add(cashierLabel);
+
+
+        totalSumPanel.add(rightPanel,BorderLayout.EAST);
+        totalSumPanel.add(leftPanel,BorderLayout.CENTER);
         topPanel.add(buttonsPanel, BorderLayout.SOUTH);
         topPanel.add(totalSumPanel, BorderLayout.CENTER);
         topPanel.add(scrollPane, BorderLayout.NORTH);
@@ -97,7 +112,7 @@ public class CartPanel extends JPanel implements CartUIListener {
     }
     public void updateCartTotal(BigDecimal sum){
         String formatted = String.format("%.2f", sum);
-        total.setText("Total: " + formatted );
+        totalLabel.setText("Total: " + formatted );
     }
 
 
