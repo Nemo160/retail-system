@@ -29,6 +29,8 @@ public class LoginPanel extends JPanel {
 
         JLabel usernameLabel = new JLabel("Username:");
         JLabel passwordLabel = new JLabel("Password:");
+        username.setText("1");
+        password.setText("wow123");
 
 
         topPanel.add(usernameLabel);

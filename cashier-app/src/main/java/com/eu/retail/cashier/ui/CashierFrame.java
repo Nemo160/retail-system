@@ -73,7 +73,7 @@ public class CashierFrame extends JFrame implements CartUIListener {
 
     private void initPanels(){
         cartPanel = new CartPanel(model, cartController);
-        categoriesPanel = new CategoriesPanel();
+        categoriesPanel = new CategoriesPanel(cartController,searchController);
         cashierSettingsPanel = new CashierSettingsPanel();
         numPadPanel = new NumPadPanel(cartController,searchController);
     }

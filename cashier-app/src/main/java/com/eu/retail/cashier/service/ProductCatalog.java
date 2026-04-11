@@ -33,18 +33,17 @@ public class ProductCatalog {
         return null;
     }
 
-    public List<Product> searchByName(String name){
-        List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM products WHERE name LIKE ?";
+    public Product findByName(String name) {
+        String sql = "SELECT * FROM products WHERE name = ?";
 
         try(Connection conn = DatabaseManager.getConnection("products");
-             PreparedStatement ps = conn.prepareStatement(sql)){
+            PreparedStatement ps = conn.prepareStatement(sql)){
 
-            ps.setString(1, "%" + name + "%");
+            ps.setString(1, name);
 
             try(ResultSet rs = ps.executeQuery()){
-                while(rs.next()){
-                    products.add(mapRowToProduct(rs));
+                if(rs.next()){
+                    return mapRowToProduct(rs);
                 }
             }
         }
@@ -52,6 +51,28 @@ public class ProductCatalog {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    public List<Product> findByCharacter(String character) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE name LIKE ?";
+
+        try(Connection conn = DatabaseManager.getConnection("products");
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, "%"+ character + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapProducts(rs));
+                }
+            }
+
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
         return products;
     }
 

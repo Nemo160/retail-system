@@ -63,7 +63,7 @@ public class NumPadPanel extends JPanel {
                 String sourceText = ((JButton) e.getSource()).getText();
                 String inputText = numPadController.handleNumPadInput(input.getText(), sourceText);
                 if(sourceText.equals("Enter")){
-                    searchController.searchByPnuAndAdd(Integer.parseInt(inputText));
+                    searchController.addByPnu(Integer.parseInt(inputText));
                     input.setText("");
                 }
                 else{
